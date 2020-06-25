@@ -25,11 +25,34 @@ bool GameScene::init()
         return false;
     }
 
-    auto visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+    visibleSize = Director::getInstance()->getVisibleSize();
+    origin = Director::getInstance()->getVisibleOrigin();
 
 
+    mlayer_Attack = new Layer::create();
 
+    mlayer_Music = new Layer::create();
+    
+
+    this->scheduleUpdate();
     
     return true;
+}
+
+void GameScene::update(float dt){
+
+}
+
+void GameScene::spawnbuttonmusic(){
+
+    /*DrawNode* btn = new DrawNode::create();
+    float x = random(visibleSize.width - 10, 10);
+    float y = random(visibleSize.height - 10, 10);
+    btn->drawCircle(Vec2(x, y), 10);*/
+    
+
+}
+
+void GameScene::readJson(){
+
 }
