@@ -1,5 +1,4 @@
 #include "GameScene.h"
-#include "SimpleAudioEngine.h"
 
 USING_NS_CC;
 
@@ -33,6 +32,19 @@ bool GameScene::init()
 
     mlayer_Music = new Layer::create();
     
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("sf.plist", "sf.png");
+
+    d = new buttonM();
+
+    vector_ms = new Vector<music_node>();
+
+    readjson(MUSIC_JSON_FILE_NAME_1);
+
+
+    d->spawnbutton(this, sf, vector_ms->at(0));
+
+
+    //d->spawnbutton(mlayer_Music, SpriteFrameCache::getInstance());
 
     this->scheduleUpdate();
     
@@ -43,16 +55,36 @@ void GameScene::update(float dt){
 
 }
 
-void GameScene::spawnbuttonmusic(){
+void GameScene::readjson(std::string path){
 
-    /*DrawNode* btn = new DrawNode::create();
-    float x = random(visibleSize.width - 10, 10);
-    float y = random(visibleSize.height - 10, 10);
-    btn->drawCircle(Vec2(x, y), 10);*/
+    Document m_document;
+    ssize_t size
+
+    char* buf = (char*)FileUtils::getInstance()->getFileData(path + ".json", "r", &size);
+    std::string content(buf, size);
+
+    m_document.Parse(content.c_str());
+
+
+    Value& m_doc = m_document["tracks"]["notes"];
+
+    for (int i = 0; i < m_doc.Size(); ++i)
+    {
+        Value& m_doci = m_doc[i];
+        
+        if (m_doci["midi"].GetInt() == 54 ){
+        
+            music_note ms;
+
+            ms.name = m_doci["name"].GetString();
+        
+            ms.duration = m_doci["duration"].GetLong();
+
+            ms.time = m_doci["time"].GetLong();
+
+            vector_ms->pushBack(ms);
+        }
+    }
     
-
 }
 
-void GameScene::readJson(){
-
-}
